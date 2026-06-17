@@ -1317,7 +1317,7 @@ function setupProfile() {
         desc.textContent = "You are currently searching for shared rooms and roommates.";
         sub.textContent = "Taylor's University • Year 2";
         name.textContent = "Angelina Julie Herliman";
-        avatar.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&width=150&auto=format&fit=crop";
+        avatar.src = "profile.jpg";
 
         if (prefTitle && checkboxRow) {
           prefTitle.textContent = "My Roommate Preferences";
