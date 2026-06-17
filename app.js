@@ -108,7 +108,7 @@ const MOCK_PROPERTIES = [
 const MOCK_ROOMMATES = [
   {
     id: 1,
-    name: "Sarah Lim",
+    name: "Timothy Chalamet",
     university: "Taylor's University",
     year: "Year 1",
     avatar: "roommate1.jpg",
@@ -135,7 +135,7 @@ const MOCK_ROOMMATES = [
   },
   {
     id: 2,
-    name: "Alex Tan",
+    name: "Kylie Jenner",
     university: "Monash University",
     year: "Year 2",
     avatar: "roommate2.png",
@@ -162,7 +162,7 @@ const MOCK_ROOMMATES = [
   },
   {
     id: 3,
-    name: "Wei-Ting Chen",
+    name: "Nicole Rigor",
     university: "Sunway University",
     year: "Year 2",
     avatar: "roommate3.jpg",
@@ -189,7 +189,7 @@ const MOCK_ROOMMATES = [
   },
   {
     id: 4,
-    name: "Chloe Watson",
+    name: "Feliz Perez",
     university: "Taylor's University",
     year: "Year 1",
     avatar: "roommate4.jpg",
@@ -216,7 +216,7 @@ const MOCK_ROOMMATES = [
   },
   {
     id: 5,
-    name: "Daniel Kumar",
+    name: "Nadiem Makarim",
     university: "Sunway University",
     year: "Year 3",
     avatar: "roommate5.jpg",
@@ -247,14 +247,14 @@ const MOCK_CHATS = [
   {
     id: 1,
     name: "Taylor's Freshmen Community",
-    lastMessage: "Sarah: Has anyone found a roommate for D'Latour?",
+    lastMessage: "Timothy: Has anyone found a roommate for D'Latour?",
     time: "10:12 AM",
     avatarIcon: "🎒",
     status: "324 Active Students",
     messages: [
-      { sender: "them", name: "Sarah", text: "Hey! I'm planning to rent a twin sharing room in D'Latour. Anyone interested?", time: "10:05 AM" },
-      { sender: "them", name: "Chloe", text: "Is that the room with the luxury pool? It looks so cool but a bit pricey.", time: "10:08 AM" },
-      { sender: "them", name: "Sarah", text: "Yes! Has anyone found a roommate for D'Latour yet?", time: "10:12 AM" }
+      { sender: "them", name: "Timothy", text: "Hey! I'm planning to rent a twin sharing room in D'Latour. Anyone interested?", time: "10:05 AM" },
+      { sender: "them", name: "Feliz", text: "Is that the room with the luxury pool? It looks so cool but a bit pricey.", time: "10:08 AM" },
+      { sender: "them", name: "Timothy", text: "Yes! Has anyone found a roommate for D'Latour yet?", time: "10:12 AM" }
     ],
     replyQueue: [
       "No way! D'Latour is super close to campus, I'd love to check it out.",
@@ -263,15 +263,15 @@ const MOCK_CHATS = [
   },
   {
     id: 2,
-    name: "Sarah Lim",
+    name: "Timothy Chalamet",
     lastMessage: "I'll create the split bill link now.",
     time: "Yesterday",
     avatarIcon: "👩",
     status: "Online roommate match",
     messages: [
-      { sender: "them", name: "Sarah", text: "Hi! The roommate matcher recommended you as a 92% match. Would you be open to flat sharing?", time: "Yesterday" },
-      { sender: "me", name: "Angelina", text: "Hi Sarah! Yes, I saw that. I'm looking at rooms near the campus lakeside too.", time: "Yesterday" },
-      { sender: "them", name: "Sarah", text: "Perfect! I'll create the split bill link now.", time: "Yesterday" }
+      { sender: "them", name: "Timothy", text: "Hi! The roommate matcher recommended you as a 92% match. Would you be open to flat sharing?", time: "Yesterday" },
+      { sender: "me", name: "Angelina", text: "Hi Timothy! Yes, I saw that. I'm looking at rooms near the campus lakeside too.", time: "Yesterday" },
+      { sender: "them", name: "Timothy", text: "Perfect! I'll create the split bill link now.", time: "Yesterday" }
     ],
     replyQueue: [
       "Let me review the math. Looks completely fine by me!",
@@ -1169,8 +1169,8 @@ function renderRoommates(list = MOCK_ROOMMATES) {
         activeNav.classList.add("active");
       }
       
-      // Check if chat exists or create/open Sarah Lim chat
-      if (roommate.name.includes("Sarah")) {
+      // Check if chat exists or create/open Timothy Chalamet chat
+      if (roommate.name.includes("Timothy")) {
         openChatWindow(2);
       } else {
         // Fallback open freshman channel with custom title
@@ -1384,19 +1384,19 @@ function setupUtilities() {
       
       const billMsg = `🧾 SPLIT BILL RECEIPT: ${desc}. Each roommate owes ${shareAmt}. Please verify via payment links.`;
       
-      // Inject directly into Sarah Lim chat (Chat id 2)
-      const chatSarah = MOCK_CHATS.find(c => c.id === 2);
-      if (chatSarah) {
-        chatSarah.messages.push({
+      // Inject directly into Timothy Chalamet chat (Chat id 2)
+      const chatTimothy = MOCK_CHATS.find(c => c.id === 2);
+      if (chatTimothy) {
+        chatTimothy.messages.push({
           sender: "me",
           name: "Ji-Min",
           text: billMsg,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         });
-        chatSarah.lastMessage = `You: Shared split receipt`;
+        chatTimothy.lastMessage = `You: Shared split receipt`;
       }
 
-      showToast("Split bill receipt shared to Sarah Lim!");
+      showToast("Split bill receipt shared to Timothy Chalamet!");
       document.getElementById("bill-splitter-panel").style.display = "none";
       document.getElementById("bill-result-card").style.display = "none";
     });
