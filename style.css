@@ -1919,5 +1919,30 @@ input:checked + .switch-slider:before {
   }
 }
 
+/* Unit Booking Slot Card & Calendar Grid */
+.booking-slot-card:hover {
+  background: var(--bg-main) !important;
+  border-color: var(--text-base) !important;
+}
+
+.booking-slot-card.selected {
+  border-color: var(--primary) !important;
+  background: rgba(236, 101, 101, 0.05) !important;
+}
+
+.booking-slot-card.selected .check-circle {
+  border-color: var(--primary) !important;
+  background: var(--primary) !important;
+}
+
+.calendar-month-cell.active-slot {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 2px 6px rgba(236, 101, 101, 0.3) !important;
+  transform: scale(1.05);
+}
+
+
 
 

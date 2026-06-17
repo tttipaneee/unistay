@@ -12,7 +12,11 @@ const MOCK_PROPERTIES = [
     description: "Fully furnished premium single room with en-suite bathroom. Located in the highly sought-after D'Latour block. Comes with 100Mbps Time broadband, study desk, orthopedic mattress, and weekly cleaning.",
     amenities: ["WiFi", "Aircon", "Gym", "Pool", "Kitchen", "Security"],
     shuttleAvailable: false,
-    roommateId: 1
+    roommateId: 1,
+    availableSlots: [
+      { display: "Jul 2026 - Dec 2026", months: ["Jul 26", "Aug 26", "Sep 26", "Oct 26", "Nov 26", "Dec 26"] },
+      { display: "Jan 2027 - Jun 2027", months: ["Jan 27", "Feb 27", "Mar 27", "Apr 27", "May 27", "Jun 27"] }
+    ]
   },
   {
     id: 2,
@@ -25,7 +29,11 @@ const MOCK_PROPERTIES = [
     description: "Affordable shared room for two friends. Modern shared kitchen and high-speed Wi-Fi included. Convenient shuttle bus service right at the entrance going to Sunway University and Sunway Pyramid.",
     amenities: ["WiFi", "Aircon", "Kitchen", "Security", "Shuttle"],
     shuttleAvailable: true,
-    roommateId: 3
+    roommateId: 3,
+    availableSlots: [
+      { display: "Sep 2026 - Feb 2027", months: ["Sep 26", "Oct 26", "Nov 26", "Dec 26", "Jan 27", "Feb 27"] },
+      { display: "Mar 2027 - Aug 2027", months: ["Mar 27", "Apr 27", "May 27", "Jun 27", "Jul 27", "Aug 27"] }
+    ]
   },
   {
     id: 3,
@@ -38,7 +46,11 @@ const MOCK_PROPERTIES = [
     description: "Stunning loft studio unit directly connected via canopy walk to Monash University. Comes with premium furniture, high-speed WiFi, gym access, infinity pool, and a fully equipped private kitchenette.",
     amenities: ["WiFi", "Aircon", "Gym", "Pool", "Kitchen", "Security", "GeoSense Link"],
     shuttleAvailable: false,
-    roommateId: 2
+    roommateId: 2,
+    availableSlots: [
+      { display: "Aug 2026 - Jan 2027", months: ["Aug 26", "Sep 26", "Oct 26", "Nov 26", "Dec 26", "Jan 27"] },
+      { display: "Feb 2027 - Jul 2027", months: ["Feb 27", "Mar 27", "Apr 27", "May 27", "Jun 27", "Jul 27"] }
+    ]
   },
   {
     id: 4,
@@ -51,7 +63,11 @@ const MOCK_PROPERTIES = [
     description: "Basic cozy room in a secure double-storey house. Rent includes all utilities except air-conditioning usage (metered). Very close to local food courts and laundry shops.",
     amenities: ["WiFi", "Kitchen", "Laundry"],
     shuttleAvailable: false,
-    roommateId: 4
+    roommateId: 4,
+    availableSlots: [
+      { display: "Jul 2026 - Dec 2026", months: ["Jul 26", "Aug 26", "Sep 26", "Oct 26", "Nov 26", "Dec 26"] },
+      { display: "Jan 2027 - Jun 2027", months: ["Jan 27", "Feb 27", "Mar 27", "Apr 27", "May 27", "Jun 27"] }
+    ]
   },
   {
     id: 5,
@@ -64,7 +80,11 @@ const MOCK_PROPERTIES = [
     description: "Premium large room with attached private balcony overlooking Sunway Lake. Located in the popular Nadayu 28 condominium. Very spacious with study lounge inside.",
     amenities: ["WiFi", "Aircon", "Gym", "Pool", "Kitchen", "Security", "Balcony"],
     shuttleAvailable: false,
-    roommateId: 5
+    roommateId: 5,
+    availableSlots: [
+      { display: "Oct 2026 - Mar 2027", months: ["Oct 26", "Nov 26", "Dec 26", "Jan 27", "Feb 27", "Mar 27"] },
+      { display: "Apr 2027 - Sep 2027", months: ["Apr 27", "May 27", "Jun 27", "Jul 27", "Aug 27", "Sep 27"] }
+    ]
   },
   {
     id: 6,
@@ -77,7 +97,11 @@ const MOCK_PROPERTIES = [
     description: "Quiet single room designed for studious students. Solid soundproof walls, custom study desk, and bookshelf. Housemates are all postgraduate students maintaining a peaceful environment.",
     amenities: ["WiFi", "Aircon", "Kitchen", "Security", "Postgrad Block"],
     shuttleAvailable: true,
-    roommateId: 1
+    roommateId: 1,
+    availableSlots: [
+      { display: "Sep 2026 - Feb 2027", months: ["Sep 26", "Oct 26", "Nov 26", "Dec 26", "Jan 27", "Feb 27"] },
+      { display: "Mar 2027 - Aug 2027", months: ["Mar 27", "Apr 27", "May 27", "Jun 27", "Jul 27", "Aug 27"] }
+    ]
   }
 ];
 
@@ -695,6 +719,39 @@ function openPropertyDrawer(prop) {
     </div>
   `).join("");
 
+  // Generate available slots HTML
+  let slotsHTML = "";
+  if (prop.availableSlots && prop.availableSlots.length > 0) {
+    prop.availableSlots.forEach((slot, index) => {
+      slotsHTML += `
+        <div class="booking-slot-card" data-index="${index}" style="padding: 10px 12px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 14px;">📅</span>
+            <div style="text-align: left;">
+              <div style="font-weight: 700; font-size: 12px; color: var(--text-dark);">6-Month Contract</div>
+              <div style="font-size: 11px; color: var(--text-base);">${slot.display}</div>
+            </div>
+          </div>
+          <div class="check-circle" style="width: 16px; height: 16px; border: 1px solid var(--border-color); border-radius: 50%; transition: all 0.2s; display: flex; align-items: center; justify-content: center;"></div>
+        </div>
+      `;
+    });
+  } else {
+    slotsHTML = `<p style="font-size: 11px; color: var(--text-base);">No booking slots available at this moment.</p>`;
+  }
+
+  // Generate calendar months grid HTML (16 months to cover all 2026/2027 academic year options)
+  const calendarMonths = [
+    "Jul 26", "Aug 26", "Sep 26", "Oct 26",
+    "Nov 26", "Dec 26", "Jan 27", "Feb 27",
+    "Mar 27", "Apr 27", "May 27", "Jun 27",
+    "Jul 27", "Aug 27", "Sep 27", "Oct 27"
+  ];
+  let calendarGridHTML = "";
+  calendarMonths.forEach(m => {
+    calendarGridHTML += `<div class="calendar-month-cell" data-month="${m}" style="height: 28px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: var(--text-base); background: #fcfbfa; transition: all 0.25s ease;">${m}</div>`;
+  });
+
   const roommate = MOCK_ROOMMATES.find(r => r.id === prop.roommateId) || MOCK_ROOMMATES[0];
   
   let roommateHTML = "";
@@ -781,6 +838,34 @@ function openPropertyDrawer(prop) {
 
     ${roommateHTML}
 
+    <!-- Book Unit Button -->
+    <button class="storm-btn accent" id="drawer-book-btn" style="width: 100%; margin-top: 16px; margin-bottom: 8px;">
+      Submit Request to Book Unit
+    </button>
+
+    <!-- Booking Section Panel -->
+    <div id="booking-section" style="display: none; background: rgba(134, 109, 201, 0.04); padding: 14px; border-radius: var(--border-radius-md); border: 1px dashed var(--secondary); margin-top: 12px; margin-bottom: 16px; text-align: left;">
+      <h4 style="font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">Choose Contract Period (6 Months)</h4>
+      <p style="font-size: 11px; color: var(--text-base); margin-bottom: 12px;">Select one of the available 6-month contract periods below to view its availability on the calendar.</p>
+      
+      <!-- Slot Radio Buttons -->
+      <div id="booking-slots-picker" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+        ${slotsHTML}
+      </div>
+
+      <!-- Mini Calendar Month Grid -->
+      <div class="booking-calendar-container" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 12px; margin-bottom: 14px;">
+        <div class="booking-calendar-title" style="font-size: 11px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px;">Contract Availability Calendar</div>
+        <div class="booking-calendar-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+          ${calendarGridHTML}
+        </div>
+      </div>
+
+      <button class="storm-btn" id="confirm-booking-btn" style="width: 100%; height: 38px; font-size: 12px; margin-top: 0;" disabled>
+        Confirm Booking Request
+      </button>
+    </div>
+
     <div class="drawer-footer-actions">
       <button class="storm-btn outline" id="drawer-like-btn" style="padding: 0; width: 48px; flex-shrink: 0; flex: none;">
         <svg viewBox="0 0 24 24" fill="${isLiked ? 'var(--primary)' : 'none'}" stroke="${isLiked ? 'var(--primary)' : 'var(--text-base)'}" stroke-width="2.5" style="width: 20px; height: 20px;">
@@ -805,6 +890,71 @@ function openPropertyDrawer(prop) {
       else mainListBtn.classList.remove("liked");
     }
   });
+
+  // Booking toggle button
+  const bookBtn = content.querySelector("#drawer-book-btn");
+  const bookingSection = content.querySelector("#booking-section");
+  if (bookBtn && bookingSection) {
+    bookBtn.addEventListener("click", () => {
+      if (bookingSection.style.display === "none") {
+        bookingSection.style.display = "block";
+        bookBtn.textContent = "Cancel Booking Request";
+        bookBtn.classList.remove("accent");
+        bookBtn.classList.add("outline");
+        // Scroll drawer panel to bottom
+        setTimeout(() => {
+          panel.scrollTop = panel.scrollHeight;
+        }, 100);
+      } else {
+        bookingSection.style.display = "none";
+        bookBtn.textContent = "Submit Request to Book Unit";
+        bookBtn.classList.remove("outline");
+        bookBtn.classList.add("accent");
+      }
+    });
+  }
+
+  // Slot selection handling
+  const slotCards = content.querySelectorAll(".booking-slot-card");
+  const confirmBtn = content.querySelector("#confirm-booking-btn");
+  let selectedSlotObj = null;
+
+  slotCards.forEach(card => {
+    card.addEventListener("click", () => {
+      const idx = parseInt(card.getAttribute("data-index"));
+      selectedSlotObj = prop.availableSlots[idx];
+      
+      // Update selected card UI
+      slotCards.forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+      
+      // Update calendar grid highlighting
+      const monthCells = content.querySelectorAll(".calendar-month-cell");
+      monthCells.forEach(cell => {
+        const mVal = cell.getAttribute("data-month");
+        if (selectedSlotObj.months.includes(mVal)) {
+          cell.classList.add("active-slot");
+        } else {
+          cell.classList.remove("active-slot");
+        }
+      });
+      
+      // Enable confirm button
+      if (confirmBtn) {
+        confirmBtn.removeAttribute("disabled");
+      }
+    });
+  });
+
+  // Confirm booking action
+  if (confirmBtn) {
+    confirmBtn.addEventListener("click", () => {
+      if (selectedSlotObj) {
+        showToast(`Booking request for ${selectedSlotObj.display} submitted!`);
+        closePropertyDrawer();
+      }
+    });
+  }
 
   const contactBtn = content.querySelector("#drawer-contact-btn");
   contactBtn.addEventListener("click", () => {
