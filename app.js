@@ -305,17 +305,18 @@ setTimeout(() => {
   const splash = document.getElementById("splash-screen");
   const signupScreen = document.getElementById("signup-screen");
   if (splash && splash.style.display !== "none" && splash.classList.contains("active")) {
+    // Reveal Sign Up page immediately underneath the splash screen
+    if (signupScreen) {
+      signupScreen.style.display = "flex";
+      signupScreen.offsetHeight; // force reflow
+      signupScreen.style.opacity = "1";
+    }
+    
+    // Fade out the splash screen
     splash.style.opacity = "0";
     setTimeout(() => {
       splash.style.display = "none";
       splash.classList.remove("active");
-      
-      // Reveal Sign Up page
-      if (signupScreen) {
-        signupScreen.style.display = "flex";
-        signupScreen.offsetHeight; // force reflow
-        signupScreen.style.opacity = "1";
-      }
     }, 500);
   }
 }, 3500);
@@ -324,17 +325,18 @@ function skipSplash() {
   const splash = document.getElementById("splash-screen");
   const signupScreen = document.getElementById("signup-screen");
   if (splash) {
+    // Reveal Sign Up page immediately underneath the splash screen
+    if (signupScreen) {
+      signupScreen.style.display = "flex";
+      signupScreen.offsetHeight;
+      signupScreen.style.opacity = "1";
+    }
+    
+    // Fade out the splash screen
     splash.style.opacity = "0";
     setTimeout(() => {
       splash.style.display = "none";
       splash.classList.remove("active");
-      
-      // Reveal Sign Up page
-      if (signupScreen) {
-        signupScreen.style.display = "flex";
-        signupScreen.offsetHeight;
-        signupScreen.style.opacity = "1";
-      }
     }, 500);
   }
 }
