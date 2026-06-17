@@ -865,7 +865,8 @@ body {
   height: 60px;
   border-radius: 50%;
   overflow: hidden;
-  background: #e6e0d8;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
