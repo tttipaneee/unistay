@@ -1413,6 +1413,10 @@ body {
   object-fit: cover;
 }
 
+.profile-avatar-big img[src*="profile.jpg"] {
+  transform: scale(1.4);
+}
+
 .profile-name-box {
   flex: 1;
 }
