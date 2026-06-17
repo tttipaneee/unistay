@@ -257,17 +257,17 @@ const MOCK_CHATS = [
   {
     id: 3,
     name: "D'Latour Landlord Support",
-    lastMessage: "Payment for June has been verified.",
+    lastMessage: "Sure, here is a quick video tour of the single room.",
     time: "2 days ago",
     avatarIcon: "🏢",
     status: "Verified Landlord",
     messages: [
-      { sender: "me", name: "Angelina", text: "Hello! I've paid the monthly rent. Here is the transaction receipt.", time: "2 days ago" },
-      { sender: "them", name: "Landlord", text: "Received, thank you Angelina. Payment for June has been verified.", time: "2 days ago" }
+      { sender: "me", name: "Angelina", text: "hii can i get more information and some videos about this unit and such", time: "2 days ago" },
+      { sender: "them", name: "Landlord", text: "Hi Angelina! Sure, here is a quick video tour of the single room. Let me know if you would like to schedule a physical viewing.", time: "2 days ago" }
     ],
     replyQueue: [
-      "Thanks! If you have any maintenance issues, just log them in the Service tab.",
-      "Have a great day!"
+      "Perfect! That looks great, I'd like to book a viewing.",
+      "Thank you, I'll discuss this with my parents first."
     ]
   }
 ];
