@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniStay - Student Housing & Roommate Finder Prototype</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Fixed Mobile Phone Frame -->
+  <div class="phone-frame">
+    <!-- Sign Up Screen -->
+    <div class="signup-screen" id="signup-screen">
+      <!-- Loading Pane (shown during transitions) -->
+      <div id="signup-loading-pane" style="display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; position: absolute; top: 0; left: 0; background: var(--bg-main); z-index: 1005; border-radius: 40px; padding: 24px;">
+        <div class="signup-loading-dots">
+          <div class="loading-dot p"></div>
+          <div class="loading-dot y"></div>
+          <div class="loading-dot r"></div>
+        </div>
+        <p id="loading-pane-text" style="font-size: 13px; font-weight: 700; color: var(--text-dark); margin-top: 24px; letter-spacing: 0.5px;">Connecting Google Account...</p>
+      </div>
+
+      <!-- Welcome Pane (shown first) -->
+      <div id="signup-welcome-pane" style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; animation: slideUp 0.4s ease;">
+        <div class="signup-logo-container" style="margin-bottom: 40px;">
+          <div class="logo-icon-large">
+            <img src="logo.jpg" alt="UniStay Logo" class="logo-img-mini">
+          </div>
+          <h1 class="signup-title">Uni<span>Stay</span></h1>
+          <p class="signup-subtitle">Find Your Place. Find Your People.</p>
+        </div>
+
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+          <!-- Google Sign Up Button -->
+          <button class="google-btn" id="google-signup-btn">
+            <svg viewBox="0 0 24 24" width="18" height="18" style="margin-right: 12px; display: block;">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            Sign Up with Google
+          </button>
+          
+          <div style="display: flex; align-items: center; width: 100%; margin: 10px 0;">
+            <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+            <span style="font-size: 11px; color: var(--text-base); padding: 0 12px; font-weight: 700; letter-spacing: 0.5px;">OR CONTINUING WITH</span>
+            <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+          </div>
+
+          <button class="storm-btn outline" id="email-signup-btn" style="height: 48px; border-radius: 24px; font-weight: 700;">
+            Sign Up with Email
+          </button>
+        </div>
+      </div>
+
+      <!-- Details Entry Pane (hidden initially) -->
+      <div id="signup-details-pane" style="display: none; width: 100%; height: 100%; overflow-y: auto; padding: 10px 4px; animation: slideUp 0.4s ease;">
+        <div style="text-align: center; margin-bottom: 24px; margin-top: 10px;">
+          <h2 class="signup-title" style="font-size: 24px;">Complete Profile</h2>
+          <p class="signup-subtitle">Enter your details to finish setting up your account</p>
+        </div>
+
+        <div class="signup-form">
+          <div class="bill-form-group">
+            <label class="bill-form-label">Full Name</label>
+            <div class="input-form-group">
+              <input type="text" class="input-field" id="signup-name" value="Angelina Julie Herliman" style="padding-left: 20px;">
+            </div>
+          </div>
+          <div class="bill-form-group" style="margin-top: 14px;">
+            <label class="bill-form-label">Email Address</label>
+            <div class="input-form-group">
+              <input type="email" class="input-field" id="signup-email" value="angelina.herliman@student.edu.my" style="padding-left: 20px;">
+            </div>
+          </div>
+          <div class="bill-form-group" style="margin-top: 14px;">
+            <label class="bill-form-label">Ethnicity / Nationality</label>
+            <div class="input-form-group">
+              <input type="text" class="input-field" id="signup-ethnicity" value="Indonesian" style="padding-left: 20px;">
+            </div>
+          </div>
+          <div class="bill-form-group" style="margin-top: 14px;">
+            <label class="bill-form-label">University</label>
+            <select class="form-select" id="signup-university" style="margin-bottom: 0;">
+              <option value="Taylor's University">Taylor's University</option>
+              <option value="Sunway University">Sunway University</option>
+              <option value="Monash University">Monash University</option>
+            </select>
+          </div>
+          <div class="bill-form-group" style="margin-top: 14px;">
+            <label class="bill-form-label">Enrollment Year</label>
+            <select class="form-select" id="signup-year" style="margin-bottom: 0;">
+              <option value="Year 1">Year 1</option>
+              <option value="Year 2" selected>Year 2</option>
+              <option value="Year 3">Year 3</option>
+            </select>
+          </div>
+
+          <button class="storm-btn" id="signup-btn" style="width: 100%; margin-top: 26px; height: 48px; border-radius: 24px;">
+            Complete Profile
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORM Grid Background Pattern Overlay -->
+    <div class="grid-overlay"></div>
+
+    <!-- Phone Notch Bezel -->
+    <div class="phone-notch"></div>
+
+    <!-- Status Bar -->
+    <div class="phone-status-bar">
+      <div class="status-bar-time" id="status-time">09:41</div>
+      <div class="status-bar-icons">
+        <!-- Signal Icon -->
+        <svg class="status-icon" viewBox="0 0 24 24">
+          <rect x="2" y="16" width="3" height="4" rx="1"/>
+          <rect x="7" y="12" width="3" height="8" rx="1"/>
+          <rect x="12" y="8" width="3" height="12" rx="1"/>
+          <rect x="17" y="3" width="3" height="17" rx="1"/>
+        </svg>
+        <!-- Wifi Icon -->
+        <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12.55a11 11 0 0 1 14.08 0" stroke-linecap="round"/>
+          <path d="M1.42 9a16 16 0 0 1 21.16 0" stroke-linecap="round"/>
+          <path d="M8.53 16.1a6 6 0 0 1 6.95 0" stroke-linecap="round"/>
+          <line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <!-- Battery Icon -->
+        <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="5" width="16" height="12" rx="2" stroke-linecap="round"/>
+          <line x1="6" y1="9" x2="14" y2="9" stroke-linecap="round"/>
+          <line x1="6" y1="13" x2="12" y2="13" stroke-linecap="round"/>
+          <line x1="20" y1="9" x2="20" y2="13" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Animated Splash Screen -->
+    <div class="splash-screen active" id="splash-screen">
+      <div class="splash-logo-container" style="animation: logoFadeIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
+        <img src="logo.jpg" alt="UniStay Logo" class="logo-img-mini">
+      </div>
+      <div class="splash-text">
+        <h1 class="splash-title">Uni<span>Stay</span></h1>
+        <p class="splash-subtitle">Find Your Place. Find Your People.</p>
+        <button class="storm-btn accent" style="padding: 0 16px; height: 32px; font-size: 11px; margin-top: 24px;" onclick="skipSplash()">Skip Intro</button>
+      </div>
+    </div>
+
+    <!-- Success Toast Notification -->
+    <div class="success-toast" id="success-toast">
+      <div class="success-toast-icon">
+        <svg viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <span id="success-toast-message">Submitted Successfully!</span>
+    </div>
+
+    <!-- App Global Header -->
+    <header class="app-header">
+      <div class="brand-logo-small">
+        <div class="logo-icon-mini">
+          <img src="logo.jpg" alt="UniStay Logo" class="logo-img-mini">
+        </div>
+        <h2 class="brand-name" id="app-header-title">Uni<span>Stay</span></h2>
+      </div>
+      <div class="header-action" id="header-action-btn">
+        <!-- Notification bell icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </div>
+    </header>
+
+    <!-- Scrollable Screens Area -->
+    <main class="app-content">
+
+      <!-- SCREEN 1: Home Dashboard -->
+      <section class="screen active" id="screen-home">
+        <!-- Search bar rounded input -->
+        <div class="search-container">
+          <div class="input-form-group">
+            <svg class="input-icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="input-field" placeholder="Search near Taylor's, Sunway..." id="search-input">
+            <button class="input-clear-btn" id="search-clear-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Horizontal Slider -->
+        <div class="categories-slider">
+          <div class="category-pill active" data-category="all">All Rooms</div>
+          <div class="category-pill" data-category="taylors">Taylor's Campus</div>
+          <div class="category-pill" data-category="sunway">Sunway Campus</div>
+          <div class="category-pill" data-category="monash">Monash Campus</div>
+          <div class="category-pill" data-category="budget">Budget (Under RM700)</div>
+        </div>
+
+        <!-- Section Title -->
+        <div class="section-title-container">
+          <h3 class="section-title">Verified Student Rooms</h3>
+          <a href="#" class="section-link" id="see-all-properties">Filters</a>
+        </div>
+
+        <!-- Properties grid -->
+        <div class="properties-grid" id="properties-grid-container">
+          <!-- Dynamically populated by JS, fallback placeholder visual items below -->
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Roommate Matching -->
+      <section class="screen" id="screen-roommate">
+        <!-- Intro Questionnaire trigger -->
+        <div id="roommate-intro-panel">
+          <div class="roommate-welcome-box">
+            <h4 class="roommate-welcome-title">Find Compatible Roommates</h4>
+            <p class="roommate-welcome-desc">Complete our compatibility questionnaire based on study, sleep, cleanliness, and budget preferences to get immediate matching scores.</p>
+            <button class="storm-btn" id="start-questionnaire-btn">
+              Start Matching Quiz
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="section-title-container">
+            <h3 class="section-title">Top Active Students</h3>
+          </div>
+
+          <!-- Default active students before questionnaire -->
+          <div class="roommates-list" id="roommates-list-container">
+            <!-- Dynamically populated by JS -->
+          </div>
+        </div>
+
+        <!-- Interactive Step-by-Step Questionnaire -->
+        <div class="questionnaire-container" id="questionnaire-wizard">
+          <div class="q-step-indicator">
+            <div class="q-step-dot active" data-step="1"></div>
+            <div class="q-step-dot" data-step="2"></div>
+            <div class="q-step-dot" data-step="3"></div>
+            <div class="q-step-dot" data-step="4"></div>
+            <div class="q-step-dot" data-step="5"></div>
+            <div class="q-step-dot" data-step="6"></div>
+            <div class="q-step-dot" data-step="7"></div>
+            <div class="q-step-dot" data-step="8"></div>
+            <div class="q-step-dot" data-step="9"></div>
+            <div class="q-step-dot" data-step="10"></div>
+            <div class="q-step-dot" data-step="11"></div>
+            <div class="q-step-dot" data-step="12"></div>
+          </div>
+
+          <!-- Step 1 Content -->
+          <div class="q-step-pane active" id="q-step-1">
+            <h4 class="q-question-title">What does your typical sleep schedule look like on weekdays?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Early Bird">
+                Early Bird: Sleep by 10:00 PM, wake up early. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Night Owl">
+                Night Owl: Sleep after 12:00 AM, sleep in late. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Flexible/Irregular">
+                Flexible/Irregular: It changes depending on my study load. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 Content -->
+          <div class="q-step-pane" id="q-step-2" style="display: none;">
+            <h4 class="q-question-title">How do you prefer to study or work in the room?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Absolute Silence">
+                Absolute Silence: No music, no talking, full focus. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Moderate/Low Noise">
+                Moderate/Low Noise: Soft background music or white noise is fine. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Social Study">
+                Social Study: I don't mind studying in groups in the room. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 Content -->
+          <div class="q-step-pane" id="q-step-3" style="display: none;">
+            <h4 class="q-question-title">How would you describe your personal cleanliness and tidiness level?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Minimalist/Neat Freak">
+                Minimalist/Neat Freak: Everything must be organized and cleaned immediately. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Average/Casual">
+                Average/Casual: Tidy overall, but don't mind a bit of temporary clutter. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Relaxed/Messy">
+                Relaxed/Messy: Cleaning is done on a weekly or bi-weekly basis. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4 Content -->
+          <div class="q-step-pane" id="q-step-4" style="display: none;">
+            <h4 class="q-question-title">How do you prefer to manage shared cleaning duties (trash, bathroom, kitchen)?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Structured Schedule">
+                Structured Schedule: A strict, rotating chore chart/schedule. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="As-Needed (Fluid)">
+                As-Needed (Fluid): Everyone just cleans up after themselves as they go. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Hired Help">
+                Hired Help: Chipping in money to hire an external cleaner periodically. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 Content -->
+          <div class="q-step-pane" id="q-step-5" style="display: none;">
+            <h4 class="q-question-title">What is your policy regarding having external guests over?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="No Guests">
+                No Guests: The room is strictly a private sanctuary. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Daytime Guests Only">
+                Daytime Guests Only: Friends can visit during the day, no overnight stays. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Flexible Night Guests">
+                Flexible Night Guests: Overnight guests are fine with advance notice. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Open House">
+                Open House: Friends and partners are welcome anytime without notice. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 6 Content -->
+          <div class="q-step-pane" id="q-step-6" style="display: none;">
+            <h4 class="q-question-title">What kind of relationship do you want to have with your roommate?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Best Friends">
+                Best Friends: I want to cook, hang out, and explore campus together. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Friendly Co-existence">
+                Friendly Co-existence: Say hello, chat casually, maintain independent social lives. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Strictly Practical">
+                Strictly Practical: Just share space and bills quietly; no expectation to socialize. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 7 Content -->
+          <div class="q-step-pane" id="q-step-7" style="display: none;">
+            <h4 class="q-question-title">What is your ideal climate/room temperature setting?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Cold Arctic">
+                Cold Arctic: Air conditioning on high, cold room temperature. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Moderate">
+                Moderate: Mild temperature, prefer open windows or gentle fan. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Warm/Cozy">
+                Warm/Cozy: Prefer a warmer room, minimal cooling. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 8 Content -->
+          <div class="q-step-pane" id="q-step-8" style="display: none;">
+            <h4 class="q-question-title">What are your boundaries regarding sharing items (food, kitchenware, electronics)?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Strictly Separate">
+                Strictly Separate: What's mine is mine; please ask before touching anything. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Share with Permission">
+                Share with Permission: Mostly separate, but happy to share if asked beforehand. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Open Sharing">
+                Open Sharing: Communal household; feel free to use shared kitchen/living items. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 9 Content -->
+          <div class="q-step-pane" id="q-step-9" style="display: none;">
+            <h4 class="q-question-title">What is your approach to decorating your side of the room?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Minimalist & Clean">
+                Minimalist & Clean: Clear desk, no clutter, neutral colors. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Curated Aesthetic">
+                Curated Aesthetic: Posters, figurines, retro tech accents, specific themes. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Cozy & Lived-in">
+                Cozy & Lived-in: Plants, warm accent lights, fairy lights, plenty of pillows. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 10 Content -->
+          <div class="q-step-pane" id="q-step-10" style="display: none;">
+            <h4 class="q-question-title">What kind of lighting do you prefer during study and evening hours?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Natural & Bright">
+                Natural & Bright: Blinds wide open, bright white overhead lights. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Dim & Moody">
+                Dim & Moody: Low ambient lighting, desk lamps, or warm accent lights. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 11 Content -->
+          <div class="q-step-pane" id="q-step-11" style="display: none;">
+            <h4 class="q-question-title">How do you plan to handle meals and kitchen space?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Grab-and-Go">
+                Grab-and-Go / Takeout: I rarely cook; rely on cafes or delivery. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Occasional Cook">
+                Occasional Cook: Simple meals, quick breakfasts, or instant noodles. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Active Chef">
+                Active Chef: I love cooking fresh meals frequently and need kitchen space. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 12 Content -->
+          <div class="q-step-pane" id="q-step-12" style="display: none;">
+            <h4 class="q-question-title">What is your stance on living with pets (if property allows)?</h4>
+            <div class="q-option-list">
+              <div class="q-option-item" data-value="Animal Lover">
+                Animal Lover: Love cats/dogs and thrilled to live in a pet-friendly space. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="Neutral/Tolerant">
+                Neutral/Tolerant: Don't mind them, as long as shared spaces stay clean. <div class="check-circle"></div>
+              </div>
+              <div class="q-option-item" data-value="No Pets">
+                No Pets: Strict boundary due to allergies, fears, or preferences. <div class="check-circle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nav controls -->
+          <div class="q-nav-buttons">
+            <button class="storm-btn outline" id="q-back-btn">Back</button>
+            <button class="storm-btn" id="q-next-btn">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Chat / Community Messages -->
+      <section class="screen" id="screen-chat">
+        <!-- Search contacts -->
+        <div class="search-container chat-search-bar">
+          <div class="input-form-group">
+            <svg class="input-icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="input-field" placeholder="Search chats or channels...">
+          </div>
+        </div>
+
+        <div class="section-title-container">
+          <h3 class="section-title">Conversations</h3>
+        </div>
+
+        <!-- Chat Rows List -->
+        <div class="channels-list" id="channels-list-container">
+          <!-- Dynamically populated by JS -->
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Utilities & Services -->
+      <section class="screen" id="screen-service">
+        <!-- Search bar for utilities -->
+        <div class="search-container">
+          <div class="input-form-group">
+            <svg class="input-icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="input-field" placeholder="Search tools or services..." id="service-search-input">
+            <button class="input-clear-btn" id="service-search-clear-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="section-title-container">
+          <h3 class="section-title">Co-Living Utilities</h3>
+        </div>
+
+        <div class="service-tools-grid">
+          <!-- Split Bill Tool Selector -->
+          <div class="service-tool-card" id="tool-splitter-card">
+            <div class="service-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="purple">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <line x1="9" y1="9" x2="15" y2="9"/>
+                <line x1="9" y1="13" x2="15" y2="13"/>
+                <line x1="9" y1="17" x2="15" y2="17"/>
+              </svg>
+            </div>
+            <div class="service-tool-info">
+              <h4 class="service-tool-title">Automated Bill Splitter</h4>
+              <p class="service-tool-desc">Quickly divide rent, high-speed Wi-Fi, electricity, and utilities among roommates with breakdown receipts.</p>
+            </div>
+          </div>
+
+          <!-- Split Bill Panel -->
+          <div class="bill-splitter-panel" id="bill-splitter-panel">
+            <div class="bill-form-group">
+              <label class="bill-form-label">Total Bill Amount (RM)</label>
+              <div class="input-form-group">
+                <input type="number" class="input-field" id="bill-amount" placeholder="e.g. 150.00" style="padding-left: 20px;">
+              </div>
+            </div>
+            <div class="bill-form-group">
+              <label class="bill-form-label">Number of Roommates</label>
+              <div class="input-form-group">
+                <input type="number" class="input-field" id="bill-members" placeholder="e.g. 3" style="padding-left: 20px;">
+              </div>
+            </div>
+            <div class="bill-form-group">
+              <label class="bill-form-label">Utility Description</label>
+              <select class="form-select" id="bill-description">
+                <option value="Electricity Bill">Electricity Bill</option>
+                <option value="Water Utility">Water Utility</option>
+                <option value="Unifi / Time Internet Broadband">Unifi / Time Internet</option>
+                <option value="General Housekeeping Fees">House Cleaning</option>
+              </select>
+            </div>
+            <button class="storm-btn" id="calculate-bill-btn" style="width: 100%;">Calculate Split</button>
+
+            <!-- Results Card inside -->
+            <div class="bill-result-card" id="bill-result-card" style="display: none;">
+              <h5 class="bill-result-title" id="bill-result-title">Split Breakdown</h5>
+              <div class="bill-result-row">
+                <span>Per Roommate Share:</span>
+                <span id="bill-share-amt" style="font-weight: 700; color: var(--text-dark);">RM 0.00</span>
+              </div>
+              <div class="bill-result-row total">
+                <span>Total Amount:</span>
+                <span id="bill-total-amt">RM 0.00</span>
+              </div>
+              <button class="storm-btn outline" style="margin-top: 10px; width: 100%; height: 32px; font-size: 11px;" id="send-split-chat-btn">Send Receipt to Chat</button>
+            </div>
+          </div>
+
+          <!-- Maintenance Ticket Selector -->
+          <div class="service-tool-card" id="tool-maintenance-card">
+            <div class="service-icon-box green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="yellow">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <div class="service-tool-info">
+              <h4 class="service-tool-title">Maintenance & Repairs</h4>
+              <p class="service-tool-desc">Request direct repairs for plumbing, electrical sockets, aircon servicing, or appliances inside your unit.</p>
+            </div>
+          </div>
+
+          <!-- Maintenance Panel -->
+          <div class="maintenance-ticket-panel" id="maintenance-ticket-panel">
+            <div class="bill-form-group">
+              <label class="bill-form-label">Repair Category</label>
+              <select class="form-select" id="maint-category">
+                <option value="Plumbing Leak">Plumbing Leak</option>
+                <option value="Aircon Not Cooling">Aircon Not Cooling</option>
+                <option value="Electrical Sockets / Lighting">Electrical Socket Fault</option>
+                <option value="Appliance (Fridge/Washing Machine)">Appliance Failure</option>
+                <option value="Other Repairs">Other Repair Request</option>
+              </select>
+            </div>
+            <div class="bill-form-group">
+              <label class="bill-form-label">Urgency Level</label>
+              <select class="form-select" id="maint-urgency">
+                <option value="High (Affects daily living)">High Urgency</option>
+                <option value="Medium (Needs repair in 48h)">Medium Urgency</option>
+                <option value="Low (Can wait for schedule)">Low Urgency</option>
+              </select>
+            </div>
+            <div class="bill-form-group">
+              <label class="bill-form-label">Detailed Notes</label>
+              <textarea class="form-textarea" placeholder="Explain the issue clearly (e.g. Toilet is leaking water from the pipe underneath)..." id="maint-notes"></textarea>
+            </div>
+            <button class="storm-btn" id="submit-ticket-btn" style="width: 100%;">Submit Repair Ticket</button>
+          </div>
+
+          <!-- Landlord Verification Selector -->
+          <div class="service-tool-card" id="tool-verify-card">
+            <div class="service-icon-box red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="red">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div class="service-tool-info">
+              <h4 class="service-tool-title">Landlord Verification Request</h4>
+              <p class="service-tool-desc">Flag a suspicious listing or request the property verification team to inspect a rental unit before placing deposits.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Student Profile & Settings -->
+      <section class="screen" id="screen-profile">
+        <!-- User Bio Info -->
+        <div class="profile-card" style="position: relative;">
+          <!-- Settings Icon Button in top right -->
+          <button class="profile-settings-btn" id="profile-settings-btn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; cursor: pointer; color: var(--text-base); transition: color 0.2s; padding: 4px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </button>
+          <div class="profile-avatar-big">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&width=150&auto=format&fit=crop" alt="Student Avatar" id="profile-avatar-img">
+          </div>
+          <div class="profile-name-box">
+            <h3 class="profile-name" id="profile-user-name">Angelina Julie Herliman</h3>
+            <p class="profile-tagline" id="profile-user-sub">Taylor's University • Year 2</p>
+          </div>
+        </div>
+
+        <!-- Mode Switcher (Host Mode vs Member Mode menu tree) -->
+        <div class="mode-switcher-card">
+          <div>
+            <h4 class="mode-switcher-label" id="mode-title">Student Tenant Mode</h4>
+            <p class="mode-switcher-desc" id="mode-desc">You are currently searching for shared rooms and roommates.</p>
+          </div>
+          <label class="switch-control">
+            <input type="checkbox" id="mode-toggle-switch">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- Preferences Section checklist -->
+        <div class="pref-section" id="tenant-preferences-box">
+          <h4 class="pref-section-title">My Roommate Preferences</h4>
+          <div class="pref-checkbox-row">
+            <label class="pref-checkbox-item">
+              <input type="checkbox" checked class="pref-check" data-pref="smoke">
+              <div class="custom-checkbox">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              Non-smoking roommates only
+            </label>
+            <label class="pref-checkbox-item">
+              <input type="checkbox" checked class="pref-check" data-pref="clean">
+              <div class="custom-checkbox">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              Prefer daily clean/neat room
+            </label>
+            <label class="pref-checkbox-item">
+              <input type="checkbox" class="pref-check" data-pref="night">
+              <div class="custom-checkbox">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              Night owl sleeping pattern
+            </label>
+            <label class="pref-checkbox-item">
+              <input type="checkbox" checked class="pref-check" data-pref="guest">
+              <div class="custom-checkbox">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              No overnight guests allowed
+            </label>
+          </div>
+        </div>
+
+        <!-- Saved/Liked Listings inside profile -->
+        <div class="section-title-container">
+          <h3 class="section-title">Saved Listings</h3>
+        </div>
+        <div class="properties-grid" id="saved-properties-container" style="margin-bottom: 20px;">
+          <!-- Liked properties show here dynamically -->
+        </div>
+
+        <button class="storm-btn outline" style="width: 100%;" id="logout-btn">Log Out</button>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar (5 Icons) -->
+    <nav class="bottom-nav-bar">
+      <!-- 1: Home Dashboard -->
+      <div class="nav-item active" data-target="screen-home">
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-label">Home</span>
+        <div class="nav-active-dot"></div>
+      </div>
+
+      <!-- 2: Roommate Matching -->
+      <div class="nav-item" data-target="screen-roommate">
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span class="nav-label">Roommate</span>
+        <div class="nav-active-dot"></div>
+      </div>
+
+      <!-- 3: Chat/Community -->
+      <div class="nav-item" data-target="screen-chat">
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span class="nav-label">Chat</span>
+        <div class="nav-active-dot"></div>
+      </div>
+
+      <!-- 4: Utilities & Services -->
+      <div class="nav-item" data-target="screen-service">
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="9"/>
+          <rect x="14" y="3" width="7" height="5"/>
+          <rect x="14" y="12" width="7" height="9"/>
+          <rect x="3" y="16" width="7" height="5"/>
+        </svg>
+        <span class="nav-label">Service</span>
+        <div class="nav-active-dot"></div>
+      </div>
+
+      <!-- 5: User Profile -->
+      <div class="nav-item" data-target="screen-profile">
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="nav-label">Profile</span>
+        <div class="nav-active-dot"></div>
+      </div>
+    </nav>
+
+    <!-- SLIDING INTERACTIVE CHAT PANEL OVERLAY -->
+    <div class="chat-window" id="chat-window-overlay">
+      <div class="chat-window-header">
+        <button class="chat-back-btn" id="chat-window-back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <div class="chat-window-title-box">
+          <h4 class="chat-window-name" id="chat-window-title">Taylor's Freshman Group</h4>
+          <span class="chat-window-status" id="chat-window-status">Active Community</span>
+        </div>
+      </div>
+
+      <!-- Message History -->
+      <div class="chat-messages" id="chat-messages-container">
+        <!-- Message bubbles inserted dynamically -->
+      </div>
+
+      <!-- Input box -->
+      <div class="chat-input-bar">
+        <input type="text" class="chat-input-field" placeholder="Type a message..." id="chat-message-input">
+        <button class="chat-send-btn" id="chat-send-btn">
+          <svg viewBox="0 0 24 24">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- DETAIL DRAWER BACKDROP (Listing Drawer Modal) -->
+    <div class="drawer-backdrop" id="property-drawer-backdrop">
+      <div class="drawer-panel" id="property-drawer-panel">
+        <div class="drawer-handle"></div>
+        <div class="drawer-content" id="property-drawer-content">
+          <!-- Dynamically populated by JS when clicking property card -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
